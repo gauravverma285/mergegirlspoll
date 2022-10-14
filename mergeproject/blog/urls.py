@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 
 from .views import SignUpView #1
+# app_name = "blog"
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
@@ -10,8 +11,11 @@ urlpatterns = [
     path('post/<int:pk>/edit/', views.post_edit, name='post_edit'),
 
     path('login/', views.login, name='login'),
-    path('signup/', views.login, name='signup'),
+    path('signup/', views.signup, name='signup'),
 
     path("signup/", SignUpView.as_view(), name="signup"), #1
+
+    # path("", views.homepage, name="homepage"),
+    # path("signup", views.signup, name="signup")
 ]
 
