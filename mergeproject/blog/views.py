@@ -34,9 +34,35 @@ def login(request, pk):
     login = get_object_or_404(login, pk=pk)
     return render(request, 'blog/login.html', {'login': login})
 
+def login(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('login', pk=post.pk)
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'blog/login.html', {'form': form})
+
 def signup(request, pk):
-    login = get_object_or_404(login, pk=pk)
+    login = get_object_or_404(signup, pk=pk)
     return render(request, 'blog/signup.html', {'signup': signup})
+
+def signup(request):
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('signup', pk=post.pk)
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'blog/signup.html', {'form': form})
 
 def post_new(request):
     form = PostForm()
