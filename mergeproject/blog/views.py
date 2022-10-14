@@ -9,6 +9,8 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 
 # Create your views here.
+from . import forms
+from django.contrib.auth import login, authenticate  
 
 from django.urls import reverse_lazy  #1
 from django.views.generic.edit import CreateView
@@ -34,18 +36,25 @@ def login(request, pk):
     login = get_object_or_404(login, pk=pk)
     return render(request, 'blog/login.html', {'login': login})
 
+from django.contrib.auth import login, authenticate  # add to imports
+
 def login(request):
-    if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+    form = forms.LoginForm()
+    message = ''
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
         if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.published_date = timezone.now()
-            post.save()
-            return redirect('login', pk=post.pk)
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'blog/login.html', {'form': form})
+            user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+            )
+            if user is not None:
+                login(request, user)
+                message = f'Hello {user.username}! You have been logged in'
+            else:
+                message = 'Login failed!'
+    return render(
+        request, 'blog/login.html', context={'form': form, 'message': message})
 
 def signup(request, pk):
     login = get_object_or_404(signup, pk=pk)

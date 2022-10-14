@@ -57,10 +57,12 @@ ROOT_URLCONF = 'mergeproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.joinpath('templates'), #1
+        ],
         'APP_DIRS': True,
 
-        "DIRS": [BASE_DIR / "templates"], #1
+        
 
         'OPTIONS': {
             'context_processors': [
