@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-&tewtz$2yew7mp7^85zsi-3n#u442ftmry)trnj31)-i(-0ji1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'polls',
+    
     
 ]
 
@@ -57,10 +58,12 @@ ROOT_URLCONF = 'mergeproject.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        
+        'APP_DIRS': True,
+
         'DIRS': [
             BASE_DIR.joinpath('templates'), #1
         ],
-        'APP_DIRS': True,
 
         
 

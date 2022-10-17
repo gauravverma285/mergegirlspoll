@@ -1,3 +1,4 @@
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -5,15 +6,11 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    pass
-    # add additional fields in here
-
+    # number = models.IntegerField(blank=True, null=True)
+    country = models.CharField(max_length=10)
+    
     def __str__(self):
         return self.username
-
-
-
-
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

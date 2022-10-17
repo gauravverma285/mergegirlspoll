@@ -20,12 +20,16 @@ from django.urls import path
 from django.urls import path, include #1
 from django.views.generic.base import TemplateView
 
+from blog import views
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
     path('', include('blog.urls')),
+    # path('signup/', views.sign_up),
+    
 
     path("", TemplateView.as_view(template_name="home.html"), name="home"), #1
     # path("", TemplateView.as_view(template_name="login.html"), name="login"),
