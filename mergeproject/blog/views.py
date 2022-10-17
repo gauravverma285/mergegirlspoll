@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 # from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 
 # Create your views here.
 from . import forms
@@ -49,6 +49,10 @@ def post_detail(request, pk):
 # def login_view(request, pk):
 #     login = get_object_or_404(login, pk=pk)
 #     return render(request, 'blog/login.html', {'login': login})
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 
 def login_view(request):
     form = forms.LoginForm()
