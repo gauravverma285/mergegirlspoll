@@ -3,14 +3,12 @@ from django.utils import timezone
 # from requests import post
 
 from .models import Post, CustomUser
-from .forms import PostForm, CustomUserCreationForm, LoginForm
+from .forms import PostForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
 from django.shortcuts import redirect
 
 
 from django.shortcuts import get_object_or_404
-
-# from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 
 from django.contrib.auth import login, authenticate, logout
@@ -30,7 +28,9 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from django.contrib.auth.decorators import login_required
 
-# from django.contrib import messages
+from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
@@ -52,7 +52,26 @@ def post_detail(request, pk):
 
 @login_required
 def profile(request):
-    return render(request, 'blog/profile.html')
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile is updated successfully')
+            return redirect(to='users-profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+        profile_form = UpdateProfileForm(instance=request.user.profile)
+
+    return render(request, 'blog/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+#for chnage password
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'users/change_password.html'
+    success_message = "Successfully Changed Your Password"
+    success_url = reverse_lazy('users-home')
 
 def logout_user(request):
     logout(request)

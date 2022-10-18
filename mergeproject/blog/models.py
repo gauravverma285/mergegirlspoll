@@ -2,6 +2,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from PIL import Image
 
 from django.contrib.auth.models import AbstractUser
 # from django.contrib.auth import get_user_model
@@ -36,3 +37,14 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+        # resizing images
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.avatar.path)
+
+        if img.height < 10 or img.width < 10:
+            new_img = (10, 10)
+            img.thumbnail(new_img)
+            img.save(self.avatar.path)

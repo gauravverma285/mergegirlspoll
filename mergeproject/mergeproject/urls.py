@@ -24,6 +24,7 @@ from blog import views
 
 from django.conf import settings
 from django.conf.urls.static import static
+from blog.views import ChangePasswordView
 
 
 urlpatterns = [
@@ -38,4 +39,5 @@ urlpatterns = [
     
     path("blog/", include("blog.urls")),
     path("blog/", include("django.contrib.auth.urls")),
+    path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
