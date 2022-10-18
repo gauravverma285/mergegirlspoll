@@ -28,7 +28,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
 
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 
 # from django.contrib import messages
 
@@ -49,6 +49,10 @@ def post_detail(request, pk):
 # def login_view(request, pk):
 #     login = get_object_or_404(login, pk=pk)
 #     return render(request, 'blog/login.html', {'login': login})
+
+@login_required
+def profile(request):
+    return render(request, 'blog/profile.html')
 
 def logout_user(request):
     logout(request)

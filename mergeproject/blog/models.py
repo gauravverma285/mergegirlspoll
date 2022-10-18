@@ -4,6 +4,8 @@ from django.db import models
 from django.utils import timezone
 
 from django.contrib.auth.models import AbstractUser
+# from django.contrib.auth import get_user_model
+# User = get_user_model()
 
 class CustomUser(AbstractUser):
     # number = models.IntegerField(blank=True, null=True)
@@ -25,3 +27,12 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    avatar = models.ImageField(default='default.jpg', upload_to='profile_images')
+    bio = models.TextField()
+
+    def __str__(self):
+        return self.user.username
