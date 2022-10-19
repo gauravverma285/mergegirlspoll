@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 # from requests import post
 
-from .models import Post, CustomUser
+from .models import Post, CustomUser, Category
 from .forms import PostForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
 from django.shortcuts import redirect
@@ -154,4 +154,12 @@ def post_edit(request, pk):
 # def sign_up(request):
 #     fm = UserCreationForm()
 #     return render(request, 'blog/signup.html', {'form': fm})
+
+def category_list(request):
+    categories = Category.objects.all() # this will get all categories, 
+                                       #you can do some filtering if you need (e.g. 
+                                        #excluding categories without posts in it)
+
+    return render (request, 'blog/category_list.html', {'categories': categories}) # blog/category_list.html should be the template that categories are listed.
+
 
