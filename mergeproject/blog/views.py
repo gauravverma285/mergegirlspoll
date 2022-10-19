@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.utils import timezone
 # from requests import post
 
-from .models import Post, CustomUser, Category
+from .models import Post, CustomUser, Category, Tag
 from .forms import PostForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm
 
 from django.shortcuts import redirect
@@ -151,9 +151,9 @@ def post_edit(request, pk):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-# def sign_up(request):
-#     fm = UserCreationForm()
-#     return render(request, 'blog/signup.html', {'form': fm})
+def sign_up(request):
+    fm = UserCreationForm()
+    return render(request, 'blog/signup.html', {'form': fm})
 
 def category_list(request):
     categories = Category.objects.all() # this will get all categories, 
@@ -162,4 +162,7 @@ def category_list(request):
 
     return render (request, 'blog/category_list.html', {'categories': categories}) # blog/category_list.html should be the template that categories are listed.
 
+def tag_list(request):
+    tags = Tag.objects.all()
 
+    return render (request, 'blog/tag_list.html', {'tags': tags})

@@ -15,5 +15,12 @@
         <h2>{{ post.title }}</h2>
         <p>{{ post.text|linebreaksbr }}</p>
         <h5>Category : {{ post.category|linebreaksbr }}</h5>
+        <div>
+            {% for tag in post.tags.all %}
+            <a href="#" class="badge text-decoration-none bg-secondary">
+            {{ tag.name }}
+            </a>
+            {% endfor %}
+        </div>
     </article>
 {% endblock %}

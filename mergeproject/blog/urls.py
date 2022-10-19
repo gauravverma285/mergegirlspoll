@@ -16,6 +16,7 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'),
     path('profile/', views.profile, name='users-profile'),
     path('category/', views.category_list, name='category_list'),
+    path('tag/', views.tag_list, name='tag_list'),
 
     path("signup/", SignUpView.as_view(), name="signup"), #1
 
