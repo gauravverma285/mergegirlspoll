@@ -11,6 +11,7 @@
             
         </div>
         <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <p>Created By : {{ post.author|linebreaksbr }}</p>
         <p>{{ post.text|linebreaksbr }}</p>
         <h5>Category : {{ post.category|linebreaksbr }}</h5>
     </article>

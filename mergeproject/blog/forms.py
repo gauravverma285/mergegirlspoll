@@ -1,7 +1,7 @@
 from unicodedata import category
 from django import forms
 
-from .models import Post
+from .models import Post, Comment
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -53,3 +53,9 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar', 'bio']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('name', 'email', 'body')
