@@ -1,3 +1,4 @@
+from django.forms import ImageField
 from django.shortcuts import render
 from django.utils import timezone
 # from requests import post
@@ -166,3 +167,8 @@ def tag_list(request):
     tags = Tag.objects.all()
 
     return render (request, 'blog/tag_list.html', {'tags': tags})
+
+def featured_image(request):
+    images = ImageField.objects.all()
+
+    return render (request, 'blog/featured_image.html', {'images': images})

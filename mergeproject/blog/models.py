@@ -3,6 +3,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from PIL import Image
+from django.utils.timezone import now
 
 from django.contrib.auth.models import AbstractUser
 # from django.contrib.auth import get_user_model
@@ -31,6 +32,8 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
+    image = models.ImageField(upload_to='feature_image', blank=True, null=True)
+    thumbnail_image = models.ImageField(upload_to='thumbnail_image', blank=True, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, blank=True, null=True)
     tags = models.ManyToManyField(Tag)
     created_date = models.DateTimeField(default=timezone.now)
@@ -62,3 +65,14 @@ class Profile(models.Model):
             new_img = (10, 10)
             img.thumbnail(new_img)
             img.save(self.avatar.path)
+
+
+class MyComment(models.Model):
+    comment = models.TextField()
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null = True)
+    timestamp = models.DateTimeField(default=now)
+
+    def _str_(self):
+        return self.comment[0:13] + "....." + "by" + self.user.username

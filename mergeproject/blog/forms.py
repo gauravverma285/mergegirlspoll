@@ -14,7 +14,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'text', 'category', 'tags')
+        fields = ('author', 'title', 'text', 'category', 'tags', 'image', 'thumbnail_image',)
 
 
 class CustomUserCreationForm(UserCreationForm):
