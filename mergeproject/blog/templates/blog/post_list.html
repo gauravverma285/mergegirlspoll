@@ -10,7 +10,7 @@
             <img src="{{MEDIA_URL}}{{ image.url }}" class="rounded featured-image-list" alt="Loading! Please wait !">
             
         </div>
-        <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
         <p>Created By : {{ post.author|linebreaksbr }}</p>
         <p>{{ post.text|linebreaksbr }}</p>
         <h5>Category : {{ post.category|linebreaksbr }}</h5>

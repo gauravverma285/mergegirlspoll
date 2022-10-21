@@ -1,4 +1,5 @@
 
+from enum import unique
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
@@ -6,6 +7,7 @@ from PIL import Image
 from django.utils.timezone import now
 
 from django.contrib.auth.models import AbstractUser
+from django_extensions.db.fields import AutoSlugField
 # from django.contrib.auth import get_user_model
 # User = get_user_model()
 
@@ -18,12 +20,14 @@ class CustomUser(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    slug = AutoSlugField(populate_from='name', unique=True)
 
     def __str__(self):
         return self.name
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    slug = AutoSlugField(populate_from='name', unique=True)
 
     def __str__(self):
         return self.name
@@ -31,6 +35,7 @@ class Tag(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
+    slug = AutoSlugField(populate_from='title', unique=True)
     text = models.TextField()
     image = models.ImageField(upload_to='feature_image', blank=True, null=True)
     thumbnail_image = models.ImageField(upload_to='thumbnail_image', blank=True, null=True)
@@ -38,6 +43,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    
 
     def publish(self):
         self.published_date = timezone.now()
@@ -88,6 +94,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True) 
     active = models.BooleanField(default=True) 
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null = True)
 
     class Meta: 
         ordering = ('created',) 

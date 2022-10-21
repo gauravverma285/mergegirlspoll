@@ -47,8 +47,8 @@ def post_list(request):
 #     post = get_object_or_404(Post, pk=pk)
 #     return render(request, 'blog/post_detail.html', {'post': post})
 
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
 
     # List of active comments for this post
     comments = post.comments.filter(active=True)
@@ -158,14 +158,14 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', post.pk)
+            return redirect('post_detail', post.slug)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-def post_edit(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_edit(request, slug):
+    post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
@@ -173,7 +173,7 @@ def post_edit(request, pk):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
-            return redirect('post_detail', pk=post.pk)
+            return redirect('post_detail', slug=post.slug)
     else:
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
@@ -201,17 +201,17 @@ def featured_image(request):
     return render (request, 'blog/featured_image.html', {'images': images})
 
 
-def replyComment(request,id):
-   comments = Comment.objects.get(id=id)
+# def replyComment(request,id):
+#    comments = Comment.objects.get(id=id)
 
-   if request.method == 'POST':
-       replier_name = request.user
-       reply_content = request.POST.get('reply_content')
+#    if request.method == 'POST':
+#        replier_name = request.user
+#        reply_content = request.POST.get('reply_content')
 
-       newReply = ReplyComment(replier_name=replier_name, reply_content=reply_content)
-       newReply.reply_comment = comments
-       newReply.save()
-       messages.success(request, 'Comment replied!')
+#        newReply = ReplyComment(replier_name=replier_name, reply_content=reply_content)
+#        newReply.reply_comment = comments
+#        newReply.save()
+#        messages.success(request, 'Comment replied!')
     
-       replycomment_form = ReplyCommentForm()
-       return render (request, 'blog/post_detail.html', {'com': comments}, {'new': newReply},{'reply_form': replycomment_form})
+#        replycomment_form = ReplyCommentForm()
+#        return render (request, 'blog/post_detail.html', {'com': comments}, {'new': newReply},{'reply_form': replycomment_form})

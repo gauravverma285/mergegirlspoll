@@ -3,7 +3,7 @@
 {% block content %}
     <article class="post">
         <aside class="actions">
-            <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
+            <a class="btn btn-secondary" href="{% url 'post_edit' slug=post.slug %}">
                 {% include './icons/pencil-fill.svg' %}
             </a>
         </aside>
@@ -58,7 +58,7 @@
 
 
 
-{% for com in comments %}
+<!-- {% for com in comments %}
   <div class="reply">
     <p class="info2">
       reply {{ forloop.reply_name }} by {{ com.reply_name }}
@@ -68,7 +68,7 @@
   </div>
   {% empty %}
   <p>There are no reply yet.</p>
-{% endfor %}
+{% endfor %} -->
 
 
 {% if newReply %}
