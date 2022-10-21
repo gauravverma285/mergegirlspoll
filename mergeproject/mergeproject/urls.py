@@ -40,4 +40,7 @@ urlpatterns = [
     path("blog/", include("blog.urls")),
     path("blog/", include("django.contrib.auth.urls")),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
-] +static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

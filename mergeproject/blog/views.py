@@ -195,10 +195,10 @@ def tag_list(request):
 
     return render (request, 'blog/tag_list.html', {'tags': tags})
 
-def featured_image(request):
-    images = ImageField.objects.all()
+# def featured_image(request):
+#     images = ImageField.objects.all()
 
-    return render (request, 'blog/featured_image.html', {'images': images})
+#     return render (request, 'blog/featured_image.html', {'images': images})
 
 
 # def replyComment(request,id):

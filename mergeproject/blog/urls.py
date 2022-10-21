@@ -7,8 +7,8 @@ from .views import profile
 
 urlpatterns = [
     path('', views.post_list, name='post_list'),
-    path('post/<str:slug>/', views.post_detail, name='post_detail'),
     path('post/new/', views.post_new, name='post_new'),
+    path('post/<str:slug>/', views.post_detail, name='post_detail'),
     path('post/<str:slug>/edit/', views.post_edit, name='post_edit'),
 
     path('login/', views.login_view, name='login'),
@@ -17,7 +17,7 @@ urlpatterns = [
     path('profile/', views.profile, name='users-profile'),
     path('category/', views.category_list, name='category_list'),
     path('tag/', views.tag_list, name='tag_list'),
-    path('image/', views.featured_image, name='featured_image'),
+    # path('image/', views.featured_image, name='featured_image'),
 
 
     path("signup/", SignUpView.as_view(), name="signup"), #1
