@@ -3,8 +3,8 @@ from django.shortcuts import render
 from django.utils import timezone
 # from requests import post
 
-from .models import Comment, Post, CustomUser, Category, Tag
-from .forms import PostForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm, CommentForm
+from .models import Comment, Post, CustomUser, Category, Tag, ReplyComment
+from .forms import PostForm, ReplyCommentForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm, CommentForm
 
 from django.shortcuts import redirect
 
@@ -201,14 +201,17 @@ def featured_image(request):
     return render (request, 'blog/featured_image.html', {'images': images})
 
 
-# def postComment(request):
-#     if request.method == "POSt":
-#         comment = request.POST.get("comment")
-#         user = request.user
-#         post = Post.objects.get("post")
+def replyComment(request,id):
+   comments = Comment.objects.get(id=id)
 
-#         comment = MyComment(comment = comment, user = user, post = post)
-#         comment.save()
-#         messages.success(request, "Your comment has been posted successfully")
+   if request.method == 'POST':
+       replier_name = request.user
+       reply_content = request.POST.get('reply_content')
 
-#     return render (request, 'blog/post_detail.html', {'comment': comment})
+       newReply = ReplyComment(replier_name=replier_name, reply_content=reply_content)
+       newReply.reply_comment = comments
+       newReply.save()
+       messages.success(request, 'Comment replied!')
+    
+       replycomment_form = ReplyCommentForm()
+       return render (request, 'blog/post_detail.html', {'com': comments}, {'new': newReply},{'reply_form': replycomment_form})

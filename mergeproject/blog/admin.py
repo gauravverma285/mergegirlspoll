@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Post, CustomUser, Tag, Comment
+from .models import Category, Post, CustomUser, Tag, Comment, ReplyComment
 from .models import Profile
 
 # from django.contrib.auth.admin import UserAdmin
@@ -26,3 +26,4 @@ admin.site.register(Post)
 admin.site.register(Profile)
 admin.site.register(Category)
 admin.site.register(Tag)
+admin.site.register(ReplyComment)

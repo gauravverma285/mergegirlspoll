@@ -94,3 +94,13 @@ class Comment(models.Model):
 
     def __str__(self): 
         return 'Comment by {} on {}'.format(self.name, self.post) 
+
+
+class ReplyComment(models.Model):
+   reply_comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+   replier_name = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+   reply_content = models.TextField()
+   replied_date = models.DateTimeField(auto_now_add=True)
+
+   def __str__(self):
+       return "'{}' replied with '{}' to '{}'".format(self.replier_name,self.reply_content, self.reply_comment)

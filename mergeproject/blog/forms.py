@@ -1,7 +1,7 @@
 from unicodedata import category
 from django import forms
 
-from .models import Post, Comment
+from .models import Post, Comment, ReplyComment
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
@@ -59,3 +59,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('name', 'email', 'body')
+
+
+class ReplyCommentForm(forms.ModelForm):
+    class Meta:
+        model = ReplyComment
+        fields = ('replier_name', 'reply_content')

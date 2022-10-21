@@ -29,8 +29,7 @@
 
         </div>
         <div class="row my-3">
-            <div class="col-md-2 bg-success">image here</div>
-            <div class="col-md-10 bg-success">Comment here</div>
+            <div class="col-md-10">Comment here</div>
         </div>
 
 {% for comment in comments %}
@@ -55,7 +54,32 @@
     <p><input type="submit" value="Add comment"></p>
   </form>
 {% endif %}
-        
-        
-    </article>
+
+
+
+
+{% for com in comments %}
+  <div class="reply">
+    <p class="info2">
+      reply {{ forloop.reply_name }} by {{ com.reply_name }}
+      {{ com.replied_date }}
+    </p>
+    {{ com.reply_content|linebreaks }}
+  </div>
+  {% empty %}
+  <p>There are no reply yet.</p>
+{% endfor %}
+
+
+{% if newReply %}
+  <h2>Your reply has been added.</h2>
+{% else %}
+  <h2>Reply Here!</h2>
+  <form action="." method="post">
+    {{ comment_form.as_p }}
+    {% csrf_token %}
+    <p><input type="submit" value="Add reply"></p>
+  </form>
+{% endif %}
+
 {% endblock %}
