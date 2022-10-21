@@ -19,11 +19,37 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('active', 'created', 'updated')
     search_fields = ('name', 'email', 'body')
 
+# @admin.register(Post)
+class PostAdmin(admin.ModelAdmin):
+    list_display = ('author', 'title', 'published_date', 'created_date', 'category')
+    list_filter = ['published_date', 'created_date', 'author', 'title' ]
+    search_fields = ['title','author']
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_filter = ['name']
+    search_fields = ['name']
+
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    list_filter = ['name']
+    search_fields = ['name']
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    list_filter = ['user']
+    search_fields = ['user']
+    
+    # fieldsets = [
+    #     (None,               {'fields': ['title']}),
+    #     ('Date information', {'fields': ['published_date'], 'classes': ['collapse']}),
+    # ]
+
 admin.site.register(CustomUser)
 
-admin.site.register(Post)
+admin.site.register(Post, PostAdmin)
 
-admin.site.register(Profile)
-admin.site.register(Category)
-admin.site.register(Tag)
+admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)
 # admin.site.register(ReplyComment)
