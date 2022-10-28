@@ -2,7 +2,7 @@
 {% block title %}Profile Page{% endblock title %}
 {% block content %}
     <div class="row my-3 p-3">
-        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="width: 200px; height: 200px; margin-left: 100px; " />
+        <img class="rounded-circle account-img" src="{{ user.avatar.url }} " style="width: 200px; height: 200px; margin-left: 100px; " />
     </div>
     {% if user_form.errors %}
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -31,9 +31,9 @@
                         <a href="{% url 'password_change' %}">Change Password</a>
                         <hr>
                         <label class="small mb-1">Change Avatar:</label>
-                        {{ profile_form.avatar }}
+                        {{ user_form.avatar }}
                     </div>
-                    <label class="small mb-1">Bio:</label> {{ profile_form.bio }}
+                    <label class="small mb-1">Bio:</label> {{ user_form.bio }}
                 </div>
             </div>
             <br><br>

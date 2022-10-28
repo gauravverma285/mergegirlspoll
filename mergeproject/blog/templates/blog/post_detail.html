@@ -63,20 +63,19 @@
 
 
 
-<!-- {% for com in comments %}
+{% for replycomments in replycomments %}
   <div class="reply">
     <p class="info2">
-      reply {{ forloop.reply_name }} by {{ com.reply_name }}
-      {{ com.replied_date }}
+      reply {{ forloop.counter }} by {{ replycomment.replier_name }}
     </p>
-    {{ com.reply_content|linebreaks }}
+    {{ replycomment.reply_content|linebreaks }}
   </div>
   {% empty %}
   <p>There are no reply yet.</p>
-{% endfor %} -->
+{% endfor %}
 
 
-{% if newReply %}
+{% if new_replycomment %}
   <h2>Your reply has been added.</h2>
 {% else %}
   <h2>Reply Here!</h2>

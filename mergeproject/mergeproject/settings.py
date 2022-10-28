@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'polls',
+    'import_export',
     
     
 ]
@@ -143,3 +144,5 @@ LOGOUT_REDIRECT_URL = "home"
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+LOGIN_URL = "/blog/login/"
+STATICFILES_DIRS = (BASE_DIR / 'static',)

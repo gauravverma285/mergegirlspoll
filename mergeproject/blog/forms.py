@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ("username", "email",)
+        fields = ("username", "email", "country", "bio", "avatar",)
 
 # class CustomUserChangeForm(UserChangeForm):
 
@@ -41,9 +41,12 @@ class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(required=True,
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
 
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+    bio = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ['username', 'email', 'avatar', 'bio',]
 
 
 class UpdateProfileForm(forms.ModelForm):
@@ -52,7 +55,7 @@ class UpdateProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['avatar', 'bio']
+        fields = ['avatar', 'bio',]
 
 
 class CommentForm(forms.ModelForm):
@@ -64,4 +67,4 @@ class CommentForm(forms.ModelForm):
 class ReplyCommentForm(forms.ModelForm):
     class Meta:
         model = ReplyComment
-        fields = ('replier_name', 'reply_content')
+        fields = ('replier_name', 'reply_content',)

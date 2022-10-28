@@ -13,7 +13,9 @@ from django_extensions.db.fields import AutoSlugField
 
 class CustomUser(AbstractUser):
     # number = models.IntegerField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='profile_images')
     country = models.CharField(max_length=10)
+    bio = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return self.username

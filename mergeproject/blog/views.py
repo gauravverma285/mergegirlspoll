@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.utils import timezone
 # from requests import post
 
-from .models import Comment, Post, CustomUser, Category, Tag, ReplyComment
+from .models import Comment, Post, CustomUser, Category, Tag, ReplyComment, Profile
 from .forms import PostForm, ReplyCommentForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm, CommentForm
 
 from django.shortcuts import redirect
@@ -33,10 +33,10 @@ from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
-class SignUpView(CreateView):
-    form_class = CustomUserCreationForm
-    success_url = reverse_lazy("login")
-    template_name = "blog/signup.html" #1
+# class SignUpView(CreateView):
+#     form_class = CustomUserCreationForm
+#     success_url = reverse_lazy("login")
+#     template_name = "blog/signup.html" 
 
 
 def post_list(request):
@@ -78,28 +78,54 @@ def post_detail(request, slug):
 #     login = get_object_or_404(login, pk=pk)
 #     return render(request, 'blog/login.html', {'login': login})
 
+# @login_required
+# def profile(request, username):
+#     user = get_object_or_404(CustomUser, username=username)
+#     profile = get_object_or_404(Profile, user=user)
+#     return render(request, 'blog/profile.html', {'profile': profile, 'user': user})
+
 @login_required
 def profile(request):
     if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
-        profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        user_form = UpdateUserForm(request.POST, request.FILES, instance=request.user)
+        #profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid(): #and profile_form.is_valid():
             user_form.save()
-            profile_form.save()
+            #profile_form.save()
             messages.success(request, 'Your profile is updated successfully')
-            return redirect(to='users-profile')
+            return redirect('profile')
     else:
         user_form = UpdateUserForm(instance=request.user)
-        profile_form = UpdateProfileForm(instance=request.user.profile)
+        #profile_form = UpdateProfileForm(instance=request.user.profile)
 
-    return render(request, 'blog/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    return render(request, 'blog/profile.html', {'user_form': user_form})
+   # , 'profile_form': profile_form
+
+# @login_required
+# def profile_edit(request):
+#     if request.method == 'POST':
+#         user_form = UpdateUserForm(request.POST, instance=request.user)
+#         profile_form = UpdateProfileForm(request.POST, request.FILES, instance=request.user.profile)
+
+#         if user_form.is_valid() and profile_form.is_valid():
+#             user_form.save()
+#             profile_form.save()
+#             messages.success(request, 'Your profile is updated successfully')
+#             return redirect('profile_edit')
+#     else:
+#         user_form = UpdateUserForm(instance=request.user)
+#         profile_form = UpdateProfileForm(instance=request.user.profile)
+
+#     return render(request, 'blog/profile.html', {'user_form': user_form, 'profile_form': profile_form})
+    
+   
 
 #for chnage password
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'users/change_password.html'
+    template_name = 'blog/change_password.html'
     success_message = "Successfully Changed Your Password"
-    success_url = reverse_lazy('users-home')
+    success_url = reverse_lazy('profile')
 
 def logout_user(request):
     logout(request)
@@ -179,9 +205,9 @@ def post_edit(request, slug):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-def sign_up(request):
-    fm = UserCreationForm()
-    return render(request, 'blog/signup.html', {'form': fm})
+# def sign_up(request):
+#     fm = UserCreationForm()
+#     return render(request, 'blog/signup.html', {'form': fm})
 
 def category_list(request):
     categories = Category.objects.all() # this will get all categories, 

@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Category, Post, CustomUser, Tag, Comment, ReplyComment
 from .models import Profile
+from import_export.admin import ExportActionMixin
 
 # from django.contrib.auth.admin import UserAdmin
 
@@ -20,22 +21,22 @@ class CommentAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'body')
 
 # @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(ExportActionMixin,admin.ModelAdmin):
     list_display = ('author', 'title', 'published_date', 'created_date', 'category')
     list_filter = ['published_date', 'created_date', 'author', 'title' ]
     search_fields = ['title','author']
 
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('name',)
     list_filter = ['name']
     search_fields = ['name']
 
-class TagAdmin(admin.ModelAdmin):
+class TagAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('name',)
     list_filter = ['name']
     search_fields = ['name']
 
-class ProfileAdmin(admin.ModelAdmin):
+class ProfileAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('user',)
     list_filter = ['user']
     search_fields = ['user']
