@@ -49,40 +49,41 @@ def post_list(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-
-    # List of active comments for this post
-    comments = post.comments.filter(active=True)
-
-    new_comment = None
-
+    comments = post.comments.filter(active=True, parent__isnull=True)
     if request.method == 'POST':
-        # A comment was posted
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            # Create Comment object but don't save to database yet          
+            parent_obj = None
+            try:
+                parent_id = int(request.POST.get('parent_id'))
+            except:
+                parent_id = None
+            if parent_id:
+                parent_obj = Comment.objects.get(id=parent_id)
+                if parent_obj:
+                    replay_comment = comment_form.save(commit=False)
+                    replay_comment.parent = parent_obj
             new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
             new_comment.post = post
-            # Save the comment to the database
             new_comment.save()
     else:
-        comment_form = CommentForm()                   
+        comment_form = CommentForm()
     return render(request,
                   'blog/post_detail.html',
                   {'post': post,
                    'comments': comments,
-                   'new_comment': new_comment,
                    'comment_form': comment_form})
+
 
 # def login_view(request, pk):
 #     login = get_object_or_404(login, pk=pk)
 #     return render(request, 'blog/login.html', {'login': login})
 
-# @login_required
-# def profile(request, username):
-#     user = get_object_or_404(CustomUser, username=username)
-#     profile = get_object_or_404(Profile, user=user)
-#     return render(request, 'blog/profile.html', {'profile': profile, 'user': user})
+@login_required
+def show(request, username):
+    user = get_object_or_404(CustomUser, username=username)
+    profile = get_object_or_404(Profile, user=user)
+    return render(request, 'blog/show.html', {'profile': profile, 'user': user})
 
 @login_required
 def profile(request):

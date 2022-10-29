@@ -75,17 +75,6 @@ class Profile(models.Model):
             img.save(self.avatar.path)
 
 
-class MyComment(models.Model):
-    comment = models.TextField()
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null = True)
-    timestamp = models.DateTimeField(default=now)
-
-    def _str_(self):
-        return self.comment[0:13] + "....." + "by" + self.user.username
-
-
 class Comment(models.Model): 
     post = models.ForeignKey(Post,
                              on_delete=models.CASCADE,
@@ -96,7 +85,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True) 
     updated = models.DateTimeField(auto_now=True) 
     active = models.BooleanField(default=True) 
-    parent = models.ForeignKey('self', on_delete=models.CASCADE, null = True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null = True, related_name='reply')
 
     class Meta: 
         ordering = ('created',) 

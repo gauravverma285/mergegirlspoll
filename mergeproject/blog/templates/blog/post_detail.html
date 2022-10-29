@@ -32,16 +32,11 @@
         <div class="container1">
             <h2>Comments</h2>
 
-        </div>
-        <div class="row my-3">
-            <div class="col-md-10">Comment here</div>
-        </div>
-
 {% for comment in comments %}
   <div class="comment">
     <p class="info">
       Comment {{ forloop.counter }} by {{ comment.name }}
-      {{ comment.created }}
+      <!-- {{ comment.created }} -->
     </p>
     {{ comment.body|linebreaks }}
   </div>
@@ -61,21 +56,19 @@
 {% endif %}
 
 
-
-
-{% for replycomments in replycomments %}
+{% for reply in replys %}
   <div class="reply">
     <p class="info2">
-      reply {{ forloop.counter }} by {{ replycomment.replier_name }}
+      reply by {{ reply.name }}
     </p>
-    {{ replycomment.reply_content|linebreaks }}
+    {{ reply.body|linebreaks }}
   </div>
   {% empty %}
   <p>There are no reply yet.</p>
 {% endfor %}
 
 
-{% if new_replycomment %}
+{% if new_reply %}
   <h2>Your reply has been added.</h2>
 {% else %}
   <h2>Reply Here!</h2>

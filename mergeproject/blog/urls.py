@@ -14,10 +14,11 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup, name='signup'),
     path('logout/', views.logout_user, name='logout'),
+    path('show/', views.profile, name='show'),
     path('profile/', views.profile, name='profile'),
-    #path('profile-edit/', views.profile, name='profile_edit'),
     path('category/', views.category_list, name='category_list'),
     path('tag/', views.tag_list, name='tag_list'),
+    # path('replycomment/', views.replyComment, name='replycomment'),
     # path('image/', views.featured_image, name='featured_image'),
 
 
