@@ -31,52 +31,42 @@
         
         <div class="container1">
             <h2>Comments</h2>
+        </div>
 
-{% for comment in comments %}
-  <div class="comment">
-    <p class="info">
-      Comment {{ forloop.counter }} by {{ comment.name }}
-      <!-- {{ comment.created }} -->
-    </p>
-    {{ comment.body|linebreaks }}
+<div class="border-0 border-start border-2 ps-2" id="{{comment.id}}">
+  <div>
+    <strong>  {{comment.name}}</strong>
+    <!-- {% if  comment.parent.name%} {% endif %} -->
   </div>
-{% empty %}
-  <p>There are no comments yet.</p>
+
+        <p>{{comment.body}}</p>
+        
+        
+        <form method="POST" class="comments" id="comnt" >
+            {% csrf_token %}
+            {{ comment_form.as_p }}
+            <button type="submit" class="save btn btn-secondary" style="margin-right:600px ;">Comment</button>
+        </form>
+
+        {% for comment in comments %}
+    <div class="comment">
+        <p class="info" ><b> Commented by {{ comment.name|upper }}</b></p>
+        {{ comment.body|linebreaks }}
+
+        {% for replay in comment.reply.all %}
+        <p class="info" style="margin-left:25%"><strong> Reply by {{ replay.name|capfirst }}</strong>  {{ replay.body }}</p>
+        {% endfor %}
+
+        <form class="reply-form" method="POST" id="rep">
+            {{ comment_form.as_p }}
+            {% csrf_token %}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <button type="submit" class="save1 btn1 btn1-secondary" style="margin-right:600px ;">Reply</button>
+        
+        </form>
+        <!-- <input class="btn btn-primary" type="submit" value="Replay" id="btn11" style="margin-left:450px ;"> -->
+
+    </div> 
+</div>
 {% endfor %}
-
-{% if new_comment %}
-  <h2>Your comment has been added.</h2>
-{% else %}
-  <h2>Add a new comment</h2>
-  <form action="." method="post">
-    {{ comment_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Add comment"></p>
-  </form>
-{% endif %}
-
-
-{% for reply in replys %}
-  <div class="reply">
-    <p class="info2">
-      reply by {{ reply.name }}
-    </p>
-    {{ reply.body|linebreaks }}
-  </div>
-  {% empty %}
-  <p>There are no reply yet.</p>
-{% endfor %}
-
-
-{% if new_reply %}
-  <h2>Your reply has been added.</h2>
-{% else %}
-  <h2>Reply Here!</h2>
-  <form action="." method="post">
-    {{ comment_form.as_p }}
-    {% csrf_token %}
-    <p><input type="submit" value="Add reply"></p>
-  </form>
-{% endif %}
-
 {% endblock %}
