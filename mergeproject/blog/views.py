@@ -1,36 +1,22 @@
 from django.forms import ImageField
 from django.shortcuts import render
 from django.utils import timezone
-# from requests import post
-
 from .models import Comment, Post, CustomUser, Category, Tag, ReplyComment, Profile
 from .forms import PostForm, ReplyCommentForm, CustomUserCreationForm, LoginForm, UpdateUserForm, UpdateProfileForm, CommentForm
-
 from django.shortcuts import redirect
-
-
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
-
 from django.contrib.auth import login, authenticate, logout
-
-# Create your views here.
 from . import forms
 # from django.contrib.auth import login, authenticate  
 # from django.contrib.auth import login, authenticate  # add to imports
-
 from django.urls import reverse_lazy  #1
 from django.views.generic.edit import CreateView
-
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 # from requests import request
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-
-
 from django.contrib.auth.decorators import login_required
-
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
@@ -182,7 +168,7 @@ def signup(request):
 
 def post_new(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -197,7 +183,7 @@ def post_new(request):
 def post_edit(request, slug):
     post = get_object_or_404(Post, slug=slug)
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -214,34 +200,13 @@ def post_edit(request, slug):
 #     return render(request, 'blog/signup.html', {'form': fm})
 
 def category_list(request):
-    categories = Category.objects.all() # this will get all categories, 
-                                       #you can do some filtering if you need (e.g. 
-                                        #excluding categories without posts in it)
+    categories = Category.objects.all() 
 
-    return render (request, 'blog/category_list.html', {'categories': categories}) # blog/category_list.html should be the template that categories are listed.
+    return render (request, 'blog/category_list.html', {'categories': categories})
 
-def tag_list(request):
-    tags = Tag.objects.all()
+def tag_list(request, slug):
+    tag = Tag.objects.filter(slug=slug).last()
+    post = Post.objects.filter(tag = tag).all()
+    #tags = Tag.objects.all()
 
-    return render (request, 'blog/tag_list.html', {'tags': tags})
-
-# def featured_image(request):
-#     images = ImageField.objects.all()
-
-#     return render (request, 'blog/featured_image.html', {'images': images})
-
-
-# def replyComment(request,id):
-#    comments = Comment.objects.get(id=id)
-
-#    if request.method == 'POST':
-#        replier_name = request.user
-#        reply_content = request.POST.get('reply_content')
-
-#        newReply = ReplyComment(replier_name=replier_name, reply_content=reply_content)
-#        newReply.reply_comment = comments
-#        newReply.save()
-#        messages.success(request, 'Comment replied!')
-    
-#        replycomment_form = ReplyCommentForm()
-#        return render (request, 'blog/post_detail.html', {'com': comments}, {'new': newReply},{'reply_form': replycomment_form})
+    return render (request, 'blog/tag_list.html', {'tags': tag})

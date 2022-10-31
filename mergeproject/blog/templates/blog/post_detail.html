@@ -13,9 +13,14 @@
             </time>
         {% endif %}
         <h2>{{ post.title }}</h2>
+        <div class="thumbnail_image">
+            
+            <img src="{{ post.thumbnail_image.url }}" class="rounded featured-image-list" alt="Loading! Please wait !" style="height: 50px; width: 50px;">
+            
+        </div>
         <div class="featured_image">
             
-          <img src="{{ post.image.url }}" class="rounded featured-image-list" alt="Loading! Please wait !" style="height: 100px; width: 100px;">
+            <img src="{{ post.image.url }}" class="rounded featured-image-list" alt="Loading! Please wait !" style="height: 100px; width: 100px;">
           
         </div>
         <p>Created By : {{ post.author|linebreaksbr }}</p>
@@ -36,7 +41,6 @@
 <div class="border-0 border-start border-2 ps-2" id="{{comment.id}}">
   <div>
     <strong>  {{comment.name}}</strong>
-    <!-- {% if  comment.parent.name%} {% endif %} -->
   </div>
 
         <p>{{comment.body}}</p>
@@ -64,8 +68,6 @@
             <button type="submit" class="save1 btn1 btn1-secondary" style="margin-right:600px ;">Reply</button>
         
         </form>
-        <!-- <input class="btn btn-primary" type="submit" value="Replay" id="btn11" style="margin-left:450px ;"> -->
-
     </div> 
 </div>
 {% endfor %}

@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 from .views import signup #1
-# app_name = "blog"
 from .views import profile, login, logout
 
 urlpatterns = [
@@ -18,13 +17,5 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('category/', views.category_list, name='category_list'),
     path('tag/', views.tag_list, name='tag_list'),
-    # path('replycomment/', views.replyComment, name='replycomment'),
-    # path('image/', views.featured_image, name='featured_image'),
-
-
-    # path("signup/", SignUpView.as_view(), name="signup"), #1
-
-    # path("", views.homepage, name="homepage"),
-    # path("signup", views.signup, name="signup")
 ]
 

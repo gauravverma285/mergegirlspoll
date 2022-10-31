@@ -14,14 +14,14 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('author', 'title', 'text', 'category', 'tags', 'image', 'thumbnail_image',)
+        fields = ('title', 'text', 'category', 'tags', 'image', 'thumbnail_image',)
 
 
 class CustomUserCreationForm(UserCreationForm):
     
     class Meta:
         model = CustomUser
-        fields = ("username", "email", "country", "bio", "avatar",)
+        fields = ("username", "email",)
 
 # class CustomUserChangeForm(UserChangeForm):
 

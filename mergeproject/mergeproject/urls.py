@@ -31,16 +31,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
     path('', include('blog.urls')),
-    # path('signup/', views.sign_up),
     
 
     path("", TemplateView.as_view(template_name="home.html"), name="home"), #1
-    # path("", TemplateView.as_view(template_name="login.html"), name="login"),
     
     path("blog/", include("blog.urls")),
     path("blog/", include("django.contrib.auth.urls")),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 ] 
+if settings.DEBUG:
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
