@@ -24,6 +24,8 @@ from django.views.generic.edit import CreateView
 
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 # from requests import request
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 
@@ -66,6 +68,7 @@ def post_detail(request, slug):
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
             new_comment.save()
+            return redirect('post_detail', slug=post.slug)
     else:
         comment_form = CommentForm()
     return render(request,
