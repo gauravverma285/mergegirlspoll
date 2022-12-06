@@ -20,6 +20,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
+from django.conf import settings
+
+
 
 # class SignUpView(CreateView):
 #     form_class = CustomUserCreationForm
@@ -29,7 +33,21 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'blog/post_list.html', {'posts': posts})
+    post = Post.objects.all()
+
+    if request.method == "POST":
+        title = request.POST.get("search_filter")
+        if title != None:
+            post = Post.objects.filter(title__icontains=title)
+
+#     send_mail(
+#     'Testing Purpose',
+#     'hhhhhhhhhhhh',
+#     'gaurav998290@gmail.com',
+#     ['gv894708@gmail.com'],
+#     fail_silently=False,
+# )
+    return render(request, 'blog/post_list.html', {'posts': posts, 'post': post})
 
 # def post_detail(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
@@ -157,6 +175,13 @@ def signup(request):
             raw_password = form.cleaned_data.get('password')
             user = authenticate(username='username', password='raw_password')
             login(request, user)
+            # subject = 'welcome to my Blogs.'
+            # message = f'Hi {user.username}, thank you for registering in Blog app.'
+            # email_from = settings.EMAIL_HOST_USER
+            # recipient_list = ['gv894708@gmail.com']
+            # print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+            # send_mail( subject, message, email_from, recipient_list )
+
             return redirect('post_list')
         else:
             form = forms.CustomUserCreationForm()
@@ -174,6 +199,15 @@ def post_new(request):
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
+
+            subject = 'welcome to my Blogs.'
+            message = f'Hi { post.author }, thank you for Creating New Post.'
+            # messagee = f'{ post.title }, this is your post title.'
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = ['gv894708@gmail.com']
+            print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+            send_mail( subject, message, email_from, recipient_list )
+
             return redirect('post_detail', post.slug)
     else:
         form = PostForm()
@@ -205,8 +239,8 @@ def category_list(request):
     return render (request, 'blog/category_list.html', {'categories': categories})
 
 def tag_list(request, slug):
-    tag = Tag.objects.filter(slug=slug).last()
-    post = Post.objects.filter(tag = tag).all()
+    # tag = Tag.objects.filter(slug=slug).last()
+    # post = Post.objects.filter(tag = tag).all()
     #tags = Tag.objects.all()
 
-    return render (request, 'blog/tag_list.html', {'tags': tag})
+    return render (request, 'blog/post_list.html', {})
