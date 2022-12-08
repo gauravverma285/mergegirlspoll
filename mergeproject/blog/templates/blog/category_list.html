@@ -1,11 +1,17 @@
 {% extends 'blog/base.html' %}
-{% block content %}   
-    <form method="Post" action=" ">{% csrf_token %}
-        <input placeholder="search here" type="search" name="search_filter">
-        <input type="submit" name="" id="" value="search">
-    </form>
-    <br>   
-    {% for post in post %}
+
+{% block content %}
+<head>
+    <title>{{ categories }} category</title>
+</head>
+
+<h1>{{ categories }} category</h1>
+<hr>
+
+<div class="row d-flex justify-content-around">
+
+
+    {% for post in posts %}
     <article class="post">
         <time class="date">
             {{ post.published_date }}
@@ -18,9 +24,11 @@
         <h2><a href="{% url 'post_detail' slug=post.slug %}">{{ post.title }}</a></h2>
         <p>Created By : {{ post.author|linebreaksbr }}</p>
         <p>{{ post.text|linebreaksbr }}</p>
-        <h5>Category : <a href="{% url 'category_list' slug=post.slug %}">{{ post.category|linebreaksbr }}</a></h5>
+        <h5>Category : {{ post.category|linebreaksbr }}</h5>
     </article>
     {% empty %}
     <p>No data found</p>
     {% endfor %}
- {% endblock %}
+</div>
+
+{% endblock %}

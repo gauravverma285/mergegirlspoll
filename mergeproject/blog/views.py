@@ -233,14 +233,15 @@ def post_edit(request, slug):
 #     fm = UserCreationForm()
 #     return render(request, 'blog/signup.html', {'form': fm})
 
-def category_list(request):
-    categories = Category.objects.all() 
+def category_list(request, slug):
+    post= get_object_or_404(Post, slug=slug)
+    posts = Post.objects.filter(category=post.category)
+    
+    return render(request, "blog/category_list.html", {'posts': posts})
 
-    return render (request, 'blog/category_list.html', {'categories': categories})
+def tag_list(request):
+    tag = Tag.objects.filter()
+    post = Post.objects.filter(tags = tag)
+    # tags = Tag.objects.all()
 
-def tag_list(request, slug):
-    # tag = Tag.objects.filter(slug=slug).last()
-    # post = Post.objects.filter(tag = tag).all()
-    #tags = Tag.objects.all()
-
-    return render (request, 'blog/post_list.html', {})
+    return render (request, 'blog/tag_list.html', {'post':post})
