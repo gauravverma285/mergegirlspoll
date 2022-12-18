@@ -20,11 +20,11 @@
                 <p>You are logged in as {{ request.user }}. Click here to <a href="{% url 'logout' %}">log out</a></p>
 
                 <a href="{% url 'profile' %}" class="top-menu">
-                    <p>show profile</p>
+                    <h4>show profile</h4>
                 </a>
 
                 <a href="{% url 'show' %}" class="top-menu">
-                    <p>show</p>
+                    <h4>show</h4>
                 </a>
                
                 {% else %}
@@ -40,8 +40,8 @@
                 
                
 
-            <h1><a href="/">Django Girls Blog</a></h1>
-            <h1><a href="/polls">polls app</a></h1>
+            <h4><a href="/">Django Girls Blog</a></h4>
+            <h4><a href="/polls">polls app</a></h4>
             
             </div>
         </header>

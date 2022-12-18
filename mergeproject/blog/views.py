@@ -22,6 +22,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.paginator import Paginator
 
 
 
@@ -35,10 +36,14 @@ def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     post = Post.objects.all()
 
+    paginator = Paginator(post, 6) #show 6 post per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     if request.method == "POST":
         title = request.POST.get("search_filter")
         if title != None:
-            post = Post.objects.filter(title__icontains=title)
+            page_obj = Post.objects.filter(title__icontains=title)
 
 #     send_mail(
 #     'Testing Purpose',
@@ -47,7 +52,7 @@ def post_list(request):
 #     ['gv894708@gmail.com'],
 #     fail_silently=False,
 # )
-    return render(request, 'blog/post_list.html', {'posts': posts, 'post': post})
+    return render(request, 'blog/post_list.html', {'posts': posts, 'page_obj': page_obj, 'page_obj': page_obj})
 
 # def post_detail(request, pk):
 #     post = get_object_or_404(Post, pk=pk)
