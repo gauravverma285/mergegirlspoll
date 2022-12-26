@@ -30,13 +30,15 @@ from blog.views import ChangePasswordView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('polls/', include('polls.urls')),
+    path('api/', include('blog.apiurls')),
     path('', include('blog.urls')),
+    
     
 
     path("", TemplateView.as_view(template_name="home.html"), name="home"), #1
     
-    path("blog/", include("blog.urls")),
-    path("blog/", include("django.contrib.auth.urls")),
+    # path("blog/", include("blog.urls")),
+    # path("blog/", include("django.contrib.auth.urls")),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
 ] 
 if settings.DEBUG:
