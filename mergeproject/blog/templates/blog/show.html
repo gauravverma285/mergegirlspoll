@@ -1,25 +1,44 @@
-{% extends 'blog/base.html' %}
-{% load static %}
-
-{% block head_title %}{{ user.username }} | show{% endblock head_title %}
-
+{% extends "blog/base.html" %}
+{% block title %}Profile Page{% endblock title %}
 {% block content %}
-<div class="container-fluid mt-5">
-  <div class="row">
-    <div class="card col-lg-6 offset-lg-3 mb-3">
-      <div class="row">
-        {% if user.profile.image %}_
-        <img class="card-img-top col-sm-3 col-4 my-3" src="{{ profile.image.url }}" alt="{{ user.username }}">
-        {% else %}
-        <img class="card-img-top col-sm-3 col-4 my-3" src="{% static 'img/avatar.svg' %}" alt="{{ user.username }}">
-        {% endif %}
-        <div class="card-body col-9">
-          <h2 class="card-title my-3">{{ user.username }}</h2>
-          <p>Last login on: {{ user.last_login }}</p>
-          <p class="card-text">{{ user.profile.about_me }}</p>
-        </div>
-      </div>
+<aside style="margin-left: 1000px;" class="actions">
+  <a class="btn btn-secondary" href="{% url 'profile' %}">
+      {% include './icons/pencil-fill.svg' %}
+  </a>
+</aside>
+    <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.avatar.url }} " style="width: 200px; height: 200px; margin-left: 100px; " />
     </div>
-  </div>
-</div>
-{% endblock %}
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Username :</label>
+                            {{ user_form.user }} <br>
+                        <label class="small mb-1">Email :</label>
+                            {{ user_form.user.email }} <br>
+                          <label class="small mb-1">Bio :</label>
+                            {{ user_form.bio }} <br>
+                          <label class="small mb-1">countary :</label>
+                            {{ user_form.user.country }}
+                    </div>
+                </div>
+            </div>
+            <br><br>
+        </form>
+    </div>
+{% endblock content %}

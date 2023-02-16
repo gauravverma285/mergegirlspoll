@@ -19,12 +19,12 @@
 
                 <p>You are logged in as {{ request.user }}. Click here to <a href="{% url 'logout' %}">log out</a></p>
 
-                <a href="{% url 'profile' %}" class="top-menu">
+                <!-- <a href="{% url 'profile' %}" class="top-menu">
                     <h4>show profile</h4>
-                </a>
+                </a> -->
 
                 <a href="{% url 'show' %}" class="top-menu">
-                    <h4>show</h4>
+                    <h4>show profile</h4>
                 </a>
                
                 {% else %}

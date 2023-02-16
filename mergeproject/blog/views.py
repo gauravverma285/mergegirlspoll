@@ -92,10 +92,23 @@ def post_detail(request, slug):
 #     return render(request, 'blog/login.html', {'login': login})
 
 @login_required
-def show(request, username):
-    user = get_object_or_404(CustomUser, username=username)
-    profile = get_object_or_404(Profile, user=user)
-    return render(request, 'blog/show.html', {'profile': profile, 'user': user})
+def show(request):
+    user_form = Profile.objects.all().last()
+    # profile = CustomUser.objects.all()
+    # user = Profile.objects.all().last()
+    # # username = user.username
+    # bio = user.bio
+    # print(bio, "BBBBBBBBBBBBBBBBBBBBBBBB")
+    # avatar = user.avatar
+    # username = user.user
+    # print(username, 'CCCCCCCCCCCCCCCCCC')
+
+    # print(user, "AAAAAAAAAAAAAAAAAAAAAAAAA")
+    
+    # user = get_object_or_404(CustomUser)
+    # print(user, 'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa')
+    # profile = get_object_or_404(Profile, user=user)
+    return render(request, 'blog/show.html', {'profile': profile, 'user_form': user_form})
 
 @login_required
 def profile(request):
